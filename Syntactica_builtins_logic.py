@@ -24,7 +24,7 @@ def _syn_builtins_logicGtLtLogic(val1:typing.Any,val2:typing.Any,operator):
 
 
 def eq(val1:typing.Any,val2:typing.Any):
-    val2,val2=_syn_builtins_getLogicVariablesCallables(val1,val2)
+    val1,val2=_syn_builtins_getLogicVariablesCallables(val1,val2)
     if isnumeric(val1) and isnumeric(val2):
         return operator.eq(float(val1),float(val2))
     return operator.eq(val1,val2)

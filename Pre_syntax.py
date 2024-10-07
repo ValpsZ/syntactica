@@ -1,17 +1,17 @@
-def braket_checker(input: str):
-    open_brakets = {"(": 0, "[": 0, "{": 0}
-    close_brakets = {")": 0, "]": 0, "}": 0}
+def bracket_checker(input: str):
+    open_brackets = {"(": 0, "[": 0, "{": 0}
+    close_brackets = {")": 0, "]": 0, "}": 0}
     open_to_close = {"(": ")", "[": "]", "{": "}"}
-    braket_stack = []
+    bracket_stack = []
     for line_idx, line in enumerate(input.split("\n")):
         for char in line:
-            if char in open_brakets:
-                open_brakets[char] += 1
-                braket_stack.append(char)
-            elif char in close_brakets:
-                close_brakets[char] += 1
-                val = open_to_close[braket_stack.pop()]
+            if char in open_brackets:
+                open_brackets[char] += 1
+                bracket_stack.append(char)
+            elif char in close_brackets:
+                close_brackets[char] += 1
+                val = open_to_close[bracket_stack.pop()]
                 if val != char:
-                    raise SyntaxError(f"Error on line: {line_idx + 1}, Closed brakets in wrong order")
-    if list(open_brakets.values()) != list(close_brakets.values()):
-        raise SyntaxError(f"Error on line: {line_idx + 1}, Braket missmatch")
+                    raise SyntaxError(f"Error on line: {line_idx + 1}, Closed brackets in wrong order")
+    if list(open_brackets.values()) != list(close_brackets.values()):
+        raise SyntaxError(f"Error on line: {line_idx + 1}, Bracket missmatch")
