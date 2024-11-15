@@ -1,0 +1,32 @@
+#include pipe.pyh
+#include math.pyh
+#include logic.pyh
+
+Adv (n) IO Fibonacci DO
+    # Check if input is 0 then it will
+    # print incorrect input
+    Attr ((n, 0) IO lt) DO
+        "Incorrect input" IO
+        PF None
+    Ag
+
+    # Check if n is 0
+    # then it will return 0
+    Attr ((n, 0) IO eq) DO
+        PF 0
+    Ag
+
+    # Check if n is 1,2
+    # it will return 1
+    Attr ((n, 1) IO eq) DO
+        PF 1
+    Ag
+    Attr ((n, 2) IO eq) DO
+        PF 1
+    Ag
+
+    PF ((((n,1) IO sub) IO Fibonacci, ((n,2) IO sub) IO Fibonacci) IO add)
+Ag
+
+# Driver Program
+(30 IO Fibonacci) IO

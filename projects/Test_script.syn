@@ -1,3 +1,8 @@
+#include main.pyh
+#include pipe.pyh
+
+
+
 #S: For
 #P: While
 #PF: return
@@ -10,9 +15,9 @@
 ('math' IO import) IO math #this would import the module math as an absoulute path and import it as math, python syntax: `math = __import__("math")`
 ("random" IO import) IO random
 
-Adv (num1, num2) IO add DO #defines the function add with the arguments num1 and num2
-	PF ((num1, num2) IO math.add) #return math.add with the same arguments
-Ag
+#Adv (num1, num2) IO add DO #defines the function add with the arguments num1 and num2
+#	PF ((num1, num2) IO math.add) #return math.add with the same arguments
+#Ag
 
 
 Adv mathClass DO #define a class named mathClass
@@ -38,16 +43,17 @@ Ag
 5 IO number0  #define variable number0 and assign 5 to it, python syntax: `number0 = 5`
 10 IO number1 #define variable number1 and assign 10 to it, python syntax: `number1 = 10`
 
-(((((number0, (' + ', number1) IO add) IO add) IO add, ' = ') IO add, (number0, number1) IO add) IO add) IO sum #python syntax: `sum = (str(number0) + (" + " + str(number1)) + " = ") + str(number0 + number1)`
+((((number0, (' + ', number1) IO add) IO add, ' = ') IO add, (number0, number1) IO add) IO add) IO result #python syntax: `sum = (str(number0) + (" + " + str(number1)) + " = ") + str(number0 + number1)`
 
-sum IO #write to stdout, python syntax: `print(sum)`
+result IO #write to stdout, python syntax: `print(sum)`
+
 
 Attr (((0,2) IO random.randint, 1) IO lt) DO
-	"This was random" IO
+	"This was random!" IO
 Ag
 
 "test" IO AVariable! #this is a constant
 
-S (10 IO range) IO i DO
-	i IO
+S (3 IO range) IO i DO
+	(("number ", i) IO add) IO
 Ag

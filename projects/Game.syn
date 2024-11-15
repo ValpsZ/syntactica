@@ -1,0 +1,32 @@
+#include main.pyh
+#include pipe.pyh
+#include math.pyh
+#include logic.pyh
+
+("pygame" IO import) IO pygame
+("random" IO import) IO random
+
+(((300,300) IO list) IO pygame.display.set_mode) IO window
+
+Adv () IO test DO
+    ("test") IO
+Ag
+
+() IO test
+
+P (True) DO
+    S (() IO pygame.event.get) IO event DO
+        Attr ((event.type, pygame.QUIT) IO eq) DO
+            () IO pygame.quit
+            () IO exit
+        Ag
+    Ag
+    ((() IO pygame.mouse.get_pos) IO pygame.Vector2) IO mousePos
+    (() IO window.get_width) IO windowWidth
+    (() IO window.get_height) IO windowHeight
+    (((mousePos.x, windowWidth) IO divide, 255) IO mult) IO a
+    (((mousePos.y, windowHeight) IO divide, 255) IO mult) IO b
+
+    ((a, b, 0) IO list) IO window.fill
+    () IO pygame.display.flip
+Ag

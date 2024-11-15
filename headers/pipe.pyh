@@ -1,0 +1,37 @@
+import builtins
+import typing
+
+def importModule(name,locals:typing.Mapping[str,object]|None=None):
+    return __import__(name,globals(),locals)
+
+
+def pipe(name,*args) -> None|typing.Any:
+    objList:list=name.split(".")
+    #print(objList)
+    name=objList.pop()
+    if len(objList)==0:
+        obj=locals().get(name) or globals().get(name) or getattr(builtins, name,None)
+    else:
+        i=0
+        obj=locals().get(objList[i]) or globals().get(objList[i])
+        #print(obj)
+        while i < len(objList)-1:
+            obj=getattr(obj,objList[i+1])
+            i+=1
+    if len(objList)==0:
+        callableObj=obj
+    else:
+        callableObj=getattr(obj,name)
+    if callable(callableObj):
+        res=callableObj(*args)
+        return res
+    else:
+        if len(objList)==0:
+            val=args
+            if len(val)==1:
+                val=val[0]
+            globals()[name]=val
+            #print("setvar",name,args)
+        else:
+            setattr(obj,name,*args)
+    return None

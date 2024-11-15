@@ -146,8 +146,12 @@ def ast(tokens) -> list[dict[str,str|list|dict]]:
                     args=parseTokens(["DO"]+tokens[pStart+1:i-1]+["Ag"])
                 to,length=getVariable(i+1)
 
+                if to in KEYWORDS or to.startswith("#") or to.startswith("\"") or to.startswith("'"):
+                    to="print"
+
                 tree.append({"type":"pipe","to":to,"args":args})
                 i+=length
+                if to == "print": i-=1
             elif tokens[i]=="P":
                 pEnd=getParenthesesEnd(i+1)
                 condition=parseTokens(["DO"]+tokens[i+2:pEnd]+["Ag"])[0]
@@ -200,6 +204,8 @@ def ast(tokens) -> list[dict[str,str|list|dict]]:
                         val,length=getVariable(i)
                         tree.append(val)
                         i+=length
+            elif tokens[i].startswith("#include"):
+                tree.append({"type":"include","name":tokens[i].split(" ")[1]})
 
             i+=1
         return tree
@@ -215,7 +221,6 @@ def tokenizer(input: str):
     tokens=[]
     i=0
     for token in re.finditer(r'(#.*|(?<!\\)"""([^"]|")*?"""|(?<!\\)"([^"\\]*(\\["\\]|[^"\\])*)*"|\'[^\']*\'|[^,\s().]+|\.|,|\(|\))',input):
-        print(i,token.group(0))
         tokens.append(token.group(0))
         i+=1
     return tokens
@@ -224,5 +229,5 @@ def tokenizer(input: str):
 
 
 if __name__=="__main__":
-    with open("Test_script.syn","r",encoding="utf-8") as f:
-        ast(tokenizer(f.read()))
+    with open("Game.syn","r",encoding="utf-8") as f:
+        with open("ast.json","w",encoding="utf8") as f2:json.dump(ast(tokenizer(f.read())),f2,indent=4)
