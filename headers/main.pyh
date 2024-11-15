@@ -1,0 +1,4 @@
+from Syntactica_builtins import *
+
+def list(*args):
+    return [*args]

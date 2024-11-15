@@ -1,0 +1,28 @@
+import os
+import time
+import Compiler
+import Tokenizer
+import argparse
+
+parser=argparse.ArgumentParser()
+parser.add_argument("path")
+args=parser.parse_args()
+
+if not os.path.exists(args.path):
+    args.path+=".syn"
+
+dirname,filename=os.path.split(args.path)
+os.chdir(dirname)
+
+with open(filename,"r",encoding="utf-8") as f:
+    with open(filename+".compiled","w",encoding="utf-8") as f2:
+        f2.write(Compiler.compile(Tokenizer.ast(Tokenizer.tokenizer(f.read()))))
+
+start=time.time()
+try:
+    exitCode=os.system("python3 "+filename+".compiled")
+    os.remove(filename+".compiled")
+except KeyboardInterrupt:
+    exitCode=-1
+totalTime=time.time()-start
+print(f"Program finnished with an exit code of {exitCode} in {round(totalTime,7)} seconds!")
